@@ -2,6 +2,8 @@ package com.elouyi.bely.publicapi.response
 
 import kotlinx.serialization.Serializable
 
+/// BiliResponse<out T> 中的 T ,格式为 xxxData
+
 @Serializable
 data class VideoData (
     val bvid: String,
@@ -21,6 +23,43 @@ data class VideoData (
     val stat: VideoState,
     val dynamic: String,
 )
+
+/**
+ * 用户关系
+ * @property mid UID
+ * @property following 关注数
+ * @property whisper 悄悄关注数
+ * @property black 黑名单数
+ * @property follower 粉丝数
+ */
+@Serializable
+data class RelationData(
+    val mid: Long,
+    val following: Int,
+    val whisper: Int,
+    val black: Int,
+    val follower: Int,
+)
+
+/**
+ * up主代表作,一般是一个 [List]
+ */
+typealias MasterPieceData = VideoData
+
+/*
+@Serializable
+data class MasterPieceData(
+    val aid: Long,
+    val videos: Int,
+    val tname: String,
+    val copyright: Int,
+    val pic: String
+)*/
+
+
+
+/// data 中的其他对象
+
 
 /**
  * up主

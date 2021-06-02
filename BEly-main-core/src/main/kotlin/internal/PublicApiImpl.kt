@@ -1,7 +1,9 @@
 package com.elouyi.bely.internal
 
-import com.elouyi.bely.publicapi.BiliApiUrl
+import com.elouyi.bely.publicapi.PublicApiUrl
 import com.elouyi.bely.publicapi.PublicApi
+import com.elouyi.bely.publicapi.response.MasterPieceResponse
+import com.elouyi.bely.publicapi.response.RelationResponse
 import com.elouyi.bely.publicapi.response.VideoResponse
 import com.elouyi.bely.utils.ElyLogger
 import io.ktor.client.*
@@ -32,10 +34,18 @@ internal object PublicApiImpl : PublicApi {
     }
 
     override fun videoInfoAsync(av: Long): Deferred<VideoResponse> = async {
-        client.get(BiliApiUrl.videoInfo(av))
+        client.get(PublicApiUrl.videoInfo(av))
     }
 
     override fun videoInfoAsync(bv: String): Deferred<VideoResponse> = async {
-        client.get(BiliApiUrl.videoInfo(bv))
+        client.get(PublicApiUrl.videoInfo(bv))
+    }
+
+    override fun relationAsync(uid: Long): Deferred<RelationResponse> = async {
+        client.get(PublicApiUrl.relation(uid))
+    }
+
+    override fun masterPieceAsync(uid: Long): Deferred<MasterPieceResponse> = async {
+        client.get(PublicApiUrl.masterPiece(uid))
     }
 }

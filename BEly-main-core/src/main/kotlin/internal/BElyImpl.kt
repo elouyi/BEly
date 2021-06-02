@@ -14,6 +14,11 @@ internal open class BElyImpl : IBEly {
         install(JsonFeature) {
             serializer = GsonSerializer()
         }
+        install(HttpTimeout) {
+            connectTimeoutMillis = 5000
+            requestTimeoutMillis = 5000
+            socketTimeoutMillis = 5000
+        }
     }
 
     override val publicApi: PublicApi = PublicApiImpl

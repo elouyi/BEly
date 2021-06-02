@@ -2,13 +2,10 @@ package com.elouyi.bely.publicapi.response
 
 import kotlinx.serialization.Serializable
 
-/**
- * 视频基本信息
- */
 @Serializable
-data class VideoResponse(
+data class RelationResponse(
     override val code: Int,
     override val message: String,
     override val ttl: Int,
-    override val data: VideoData
-) : BiliResponse<VideoData>
+    override val data: RelationData,
+) : BiliResponse<RelationData>

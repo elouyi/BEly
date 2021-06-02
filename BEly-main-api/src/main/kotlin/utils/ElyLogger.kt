@@ -44,8 +44,6 @@ sealed class LogLevel(val lv: Int) : Comparable<LogLevel>{
     object ERROR : LogLevel(5)
     object DISABLE : LogLevel(100)
 
-    // TODO: 2021/3/12 增加 trace 级别
-
     companion object{
         fun getLevel(l: Int) = when{
             l < 2 -> VERBOSE
