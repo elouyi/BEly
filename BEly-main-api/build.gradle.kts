@@ -10,4 +10,5 @@ dependencies {
     api(ktorClientCore)
     api(coroutines)
     api(kotlinx("serialization-json",Versions.serialization))
+    api(kotlin("reflect"))
 }

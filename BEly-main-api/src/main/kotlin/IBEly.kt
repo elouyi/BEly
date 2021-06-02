@@ -1,6 +1,10 @@
 package com.elouyi.bely
 
+import com.elouyi.bely.publicapi.PublicApi
+import com.elouyi.bely.utils.newInstance
 import io.ktor.client.*
+import java.util.*
+import kotlin.reflect.KClass
 
 val BEly: IBEly get() = _BEly.getInstance()
 
@@ -10,15 +14,26 @@ interface IBEly {
      * 带浏览器 agent和 json 序列化的 [HttpClient]
      */
     val browserClient: HttpClient
+
+    val publicApi: PublicApi
 }
 
-@Suppress("ClassName")
+@Suppress("ClassName","UncheckedCast")
 private object _BEly {
 
     @JvmField
     var instance: IBEly? = null
 
     fun getInstance(): IBEly {
-        TODO()
+
+        return instance ?: run {
+            val cl = Class.forName("com.elouyi.bely.internal.BElyImpl").kotlin as KClass<IBEly>
+            try {
+                cl.newInstance()
+            } catch (e: Exception) {
+                throw e
+            }.also { instance = it }
+        }
+
     }
 }
