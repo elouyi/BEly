@@ -20,9 +20,9 @@ object QRUtil {
      * 生成二维码
      * @param text 二维码信息
      * @param size 二维码大小
-     * @return 二维码文件路径
+     * @return 二维码文件
      */
-    suspend fun createQRCode(text: String,size: Int = 300): String {
+    suspend fun createQRCode(text: String,fileName: String = "qrcode.jpg",size: Int = 300): File {
         return withContext(Dispatchers.IO) {
             val hints = mutableMapOf<EncodeHintType,Any>()
             hints[EncodeHintType.CHARACTER_SET] = "UTF-8"
@@ -30,9 +30,9 @@ object QRUtil {
             hints[EncodeHintType.MARGIN] = 1
             val bitMatrix = MultiFormatWriter().encode(text,BarcodeFormat.QR_CODE,size,size,hints)
             val bi = MatrixToImageWriter.toBufferedImage(bitMatrix)
-            val file = File("qrcode.jpg")
+            val file = File(fileName)
             ImageIO.write(bi,"JPEG",file)
-            file.absolutePath
+            file
         }
     }
 }
