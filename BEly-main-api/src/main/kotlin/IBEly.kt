@@ -15,6 +15,9 @@ interface IBEly {
      */
     val browserClient: HttpClient
 
+    /**
+     * 无需登录的 API
+     */
     val publicApi: PublicApi
 }
 
@@ -27,7 +30,7 @@ private object _BEly {
     fun getInstance(): IBEly {
 
         return instance ?: run {
-            val cl = Class.forName("com.elouyi.bely.internal.BElyImpl").kotlin as KClass<IBEly>
+            val cl = Class.forName("com.elouyi.bely.BElyImpl").kotlin as KClass<IBEly>
             try {
                 cl.newInstance()
             } catch (e: Exception) {

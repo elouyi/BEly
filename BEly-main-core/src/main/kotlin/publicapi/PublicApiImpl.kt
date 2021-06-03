@@ -1,7 +1,6 @@
-package com.elouyi.bely.internal
+package com.elouyi.bely.publicapi
 
-import com.elouyi.bely.publicapi.PublicApiUrl
-import com.elouyi.bely.publicapi.PublicApi
+import com.elouyi.bely.publicapi.response.AccInfoResponse
 import com.elouyi.bely.publicapi.response.MasterPieceResponse
 import com.elouyi.bely.publicapi.response.RelationResponse
 import com.elouyi.bely.publicapi.response.VideoResponse
@@ -47,5 +46,9 @@ internal object PublicApiImpl : PublicApi {
 
     override fun masterPieceAsync(uid: Long): Deferred<MasterPieceResponse> = async {
         client.get(PublicApiUrl.masterPiece(uid))
+    }
+
+    override fun accInfoAsync(uid: Long): Deferred<AccInfoResponse> = async {
+        client.get(PublicApiUrl.accInfo(uid))
     }
 }

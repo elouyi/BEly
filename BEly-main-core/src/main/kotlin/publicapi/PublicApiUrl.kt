@@ -20,4 +20,7 @@ object PublicApiUrl {
     @Deprecated("this api is not public",level = DeprecationLevel.HIDDEN)
     fun userSearch(name: String): String =
         "https://api.vc.bilibili.com/dynamic_repost/v1/dynamic_repost/name_search?keyword=$name"
+
+    fun accInfo(uid: Long): String =
+        "https://api.bilibili.com/x/space/acc/info?mid=$uid"
 }

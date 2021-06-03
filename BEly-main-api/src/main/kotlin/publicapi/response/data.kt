@@ -57,6 +57,27 @@ data class MasterPieceData(
 )*/
 
 
+@Serializable
+data class AccInfoData(
+    val mid: Long,
+    val name: String,
+    val sex: String,
+    val face: String,
+    val sign: String,
+    val rank: Long,
+    val level: Int,
+    val jointime: Long,
+    val mornal: Long,
+    val silence: Int,
+    val birthday: String,
+    val coins: Int,
+    val fan_badge: Boolean,
+    val official: UserVerify,
+    val vip: Vip,
+    val live_room: LiveRoom
+)
+
+
 
 /// data 中的其他对象
 
@@ -81,7 +102,10 @@ data class VideoInfo(
     val hd5: Int,
     val no_reprint: Int,
     val autoplay: Int,
-    val is_cooperation: Int
+    val is_cooperation: Int,
+    val nameplate: NamePlate,
+    val is_followed: Boolean,
+    val top_photo: String
 )
 
 @Serializable
@@ -94,4 +118,53 @@ data class VideoState(
     val now_rank: Int,
     val his_rank: Int,
     val like: Int
+)
+
+/**
+ * 认证信息
+ */
+@Serializable
+data class UserVerify(
+    val type: Int,
+    val desc: String,
+    val role: Int,
+    val title: String
+)
+
+/**
+ * 大会员 信息
+ * @property type 0 为非会员，1 为大会员，2 年度大会员
+ */
+@Serializable
+data class Vip(
+    val type: Int
+)
+
+/**
+ * 勋章信息?
+ */
+@Serializable
+data class NamePlate(
+    val nid: Int,
+    val name: String,
+    val image: String,
+    val image_small: String,
+    val level: String,
+    val condition: String
+)
+
+/**
+ * 直播间信息
+ */
+@Serializable
+data class LiveRoom(
+    val roomStatus: Int,
+    val liveStatus: Int,
+    val url: String,
+    val title: String,
+    val cover: String,
+    val online: Int,
+    val roomid: Long,
+    val roundStatue: Int,
+    val broadcast_type: Int
 )

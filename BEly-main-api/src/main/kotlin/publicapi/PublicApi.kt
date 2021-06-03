@@ -88,4 +88,8 @@ interface PublicApi : CoroutineScope {
      */
     suspend fun masterPiece(uid: Long): MasterPieceResponse = masterPieceAsync(uid).await()
 
+    fun accInfoAsync(uid: Long): Deferred<AccInfoResponse>
+
+    suspend fun accInfo(uid: Long): AccInfoResponse = accInfoAsync(uid).await()
+
 }

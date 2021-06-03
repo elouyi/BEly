@@ -1,6 +1,6 @@
-package com.elouyi.bely.internal
+package com.elouyi.bely
 
-import com.elouyi.bely.IBEly
+import com.elouyi.bely.publicapi.PublicApiImpl
 import com.elouyi.bely.publicapi.PublicApi
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*

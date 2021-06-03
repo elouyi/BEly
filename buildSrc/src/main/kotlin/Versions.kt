@@ -7,4 +7,6 @@ object Versions {
     const val ktor = "1.5.4"
     const val serialization = "1.2.1"
 
+    const val zxing = "3.4.1"
+
 }
