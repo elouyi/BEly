@@ -2,9 +2,18 @@
 
 package com.elouyi.bely.security.utils
 
+import com.elouyi.bely.utils.ElyLogger
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.io.File
+import java.io.IOException
+import kotlin.jvm.Throws
 
 @Serializable
 internal data class UserCookies(
@@ -15,7 +24,56 @@ internal data class UserCookies(
     private val expiresTime: Long = System.currentTimeMillis() + 29L * 24 * 60 * 60 * 1000
 ) {
     val isExpires: Boolean
-        get() = System.currentTimeMillis() < expiresTime
+        get() = System.currentTimeMillis() > expiresTime
+}
+
+
+internal object UserCookieCache {
+
+    private const val fileDir = "cache"
+
+    init {
+        File(fileDir).apply {
+            if (!exists()) mkdirs()
+        }
+    }
+
+    private val logger = ElyLogger("UserCookieCache")
+
+    @Throws(IOException::class)
+    suspend fun saveCookies(cookies: UserCookies) {
+        val text = Json.encodeToString(cookies)
+        withContext(Dispatchers.IO) {
+            val file = File("$fileDir/${cookies.dedeUserId}.txt").also {
+                if (!it.exists()) it.createNewFile()
+            }
+            file.outputStream().use {
+                it.write(text.toByteArray())
+            }
+            logger.v("写入用户 cookie 缓存 ${cookies.dedeUserId}")
+        }
+
+    }
+
+    suspend fun getCookies(uid: Long): UserCookies? {
+        return withContext(Dispatchers.IO) {
+            val file = File("$fileDir/${uid}.txt").also {
+                if (!it.exists()) return@withContext null
+            }
+            try {
+                val str = file.readText()
+                val cookies = Json.decodeFromString<UserCookies>(str)
+                if (cookies.isExpires) {
+                    logger.w("$uid cookie 缓存已过期")
+                    return@withContext null
+                }
+                cookies
+            } catch (e: Exception) {
+                logger.e("读取 user cookie cache 错误",e)
+                null
+            }
+        }
+    }
 }
 
 /**
