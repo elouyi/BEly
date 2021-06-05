@@ -1,6 +1,6 @@
 package com.elouyi.bely.biliapi.data.personal
 
-import com.elouyi.bely.publicapi.response.BiliResponse
+import com.elouyi.bely.biliapi.BiliResponse
 import kotlinx.serialization.Serializable
 
 @Serializable

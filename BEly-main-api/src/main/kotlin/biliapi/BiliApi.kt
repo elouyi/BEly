@@ -8,6 +8,8 @@ import kotlinx.coroutines.Deferred
 
 /**
  * Bilibili 需要登录的 api,此接口中的方法在 web 和 app 端都有
+ * @see WebBiliApi Web 独有的 api
+ * @see AppBiliApi App 独有的 api
  * @see [PublicApi]
  */
 interface BiliApi : CoroutineScope {
@@ -97,9 +99,28 @@ interface BiliApi : CoroutineScope {
      */
     suspend fun updateSign(sign: String): UpdateSignResponse = updateSignAsync(sign).await()
 
+    /**
+     * 登录用户状态
+     */
+    fun navStatAsync(): Deferred<NavStatResponse>
+
+    /**
+     * 登录用户状态
+     */
+    suspend fun navStat(): NavStatResponse = navStatAsync().await()
+
+    /**
+     * 获取硬币数
+     */
+    fun getCoinAsync(): Deferred<GetCoinResponse>
+
+    /**
+     * 获取硬币数
+     */
+    suspend fun getCoin(): GetCoinResponse = getCoinAsync().await()
 
     /// 个人中心 完
 
 
-    /// 
+    ///
 }

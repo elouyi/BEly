@@ -1,5 +1,6 @@
 package com.elouyi.bely.publicapi.response
 
+import com.elouyi.bely.biliapi.BiliResponse
 import kotlinx.serialization.Serializable
 
 @Serializable

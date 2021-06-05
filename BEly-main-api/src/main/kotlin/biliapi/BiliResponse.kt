@@ -1,4 +1,4 @@
-package com.elouyi.bely.publicapi.response
+package com.elouyi.bely.biliapi
 
 interface BiliResponse<out T> {
 

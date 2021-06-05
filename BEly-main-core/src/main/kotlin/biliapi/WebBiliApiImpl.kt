@@ -1,5 +1,6 @@
 package com.elouyi.bely.biliapi
 
+import com.elouyi.bely.biliapi.data.message.*
 import com.elouyi.bely.biliapi.data.personal.*
 import com.elouyi.bely.contact.WebBiliBotImpl
 import com.elouyi.bely.security.utils.UserCookieCache
@@ -96,6 +97,85 @@ internal class WebBiliApiImpl(
     override fun navDataAsync(): Deferred<NavDataResponse> = async {
         bot.client.get(BiliApiUrl.navData()) {
             withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun navStatAsync(): Deferred<NavStatResponse> = async {
+        bot.client.get(BiliApiUrl.navStat()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun getCoinAsync(): Deferred<GetCoinResponse> = async {
+        bot.client.get(BiliApiUrl.getCoin()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun unreadMessageAsync(): Deferred<UnreadMessageResponse>  = async {
+        bot.client.get(BiliApiUrl.unreadMessage()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun unreadSingleAsync(): Deferred<UnreadSingleResponse> = async {
+        bot.client.get(BiliApiUrl.unreadSingle()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun sendMessageAsync(
+        msg: String,
+        target: Long,
+        type: SendMessageData.MsgType
+    ): Deferred<SendMessageResponse> = async {
+        when(type) {
+            SendMessageData.MsgType.TEXT -> {
+                bot.client.submitForm(
+                    url = BiliApiUrl.sendMessageWeb(),
+                    formParameters = Parameters.build {
+                        append("msg[sender_uid]",bot.uid.toString())
+                        append("msg[receiver_id]",target.toString())
+                        append("msg[receiver_type]","1")
+                        append("msg[msg_type]","1")
+                        append("msg[msg_status]","0")
+                        append("msg[content]","{\"content\":\"$msg\"}")
+                        append("msg[timestamp]",(System.currentTimeMillis() / 1000).toString())
+                        append("msg[new_face_version]","0")
+                        append("msg[dev_id]","759C7FAF-5EA8-4BCB-821C-B91F53143E88")
+                        append("from_firework","0")
+                        append("build","0")
+                        append("mobi_app","web")
+                        append("csrf_token",bot.cookies.bili_jct)
+                        append("csrf",bot.cookies.bili_jct)
+                    }
+                ) {
+                    withUserCookies(bot.cookies)
+                }
+            }
+            SendMessageData.MsgType.PICTURE -> {
+                bot.client.submitForm(
+                    url = BiliApiUrl.sendMessageWeb(),
+                    formParameters = Parameters.build {
+                        append("msg[sender_uid]",bot.uid.toString())
+                        append("msg[receiver_id]",target.toString())
+                        append("msg[receiver_type]","1")
+                        append("msg[msg_type]","2")
+                        append("msg[msg_status]","0")
+                        append("msg[content]", buildPictureMsg(msg))
+                        append("msg[timestamp]",(System.currentTimeMillis() / 1000).toString())
+                        append("msg[new_face_version]","0")
+                        append("msg[dev_id]","759C7FAF-5EA8-4BCB-821C-B91F53143E88")
+                        append("from_firework","0")
+                        append("build","0")
+                        append("mobi_app","web")
+                        append("csrf_token",bot.cookies.bili_jct)
+                        append("csrf",bot.cookies.bili_jct)
+                    }
+                ) {
+                    withUserCookies(bot.cookies)
+                }
+            }
         }
     }
 }

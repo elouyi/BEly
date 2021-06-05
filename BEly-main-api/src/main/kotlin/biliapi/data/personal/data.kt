@@ -319,3 +319,25 @@ data class Wallet(
     val coupon_balance: Int,
     val coupon_due_time: Int
 )
+
+/**
+ * 登录用户状态 data
+ * @property following 关注数
+ * @property follower 粉丝数
+ * @property dynamic_count 发布动态数
+ */
+@Serializable
+data class NavStatData(
+    val following: Int,
+    val follower: Int,
+    val dynamic_count: Int
+)
+
+/**
+ * 获取硬币数 data
+ * @property money 硬币为正时为数字，0时为 null
+ */
+@Serializable
+data class CoinData(
+    val money: Int?
+)
