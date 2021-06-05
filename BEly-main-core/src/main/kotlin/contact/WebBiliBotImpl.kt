@@ -37,7 +37,7 @@ internal class WebBiliBotImpl(
     override val name: String
         get() = TODO("Not yet implemented")
 
-    lateinit var cookies: UserCookies
+    var cookies: IUserCookies
         private set
 
     override suspend fun login() {

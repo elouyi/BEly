@@ -17,12 +17,20 @@ interface BiliApi : CoroutineScope {
      */
     val bot: BiliBot
 
+
+    /// 个人中心
+
+
     /**
      * 获取用户信息
      * @see AccountInfoData
      */
     suspend fun getAccInfo(): AccountInfoResponse = getAccInfoAsync().await()
 
+    /**
+     * 获取用户信息
+     * @see AccountInfoData
+     */
     fun getAccInfoAsync(): Deferred<AccountInfoResponse>
 
     /**
@@ -31,6 +39,67 @@ interface BiliApi : CoroutineScope {
      */
     fun dailyRewardAsync(): Deferred<RewardResponse>
 
+    /**
+     * 每日奖励状态
+     * @see RewardData
+     */
     suspend fun dailyReward(): RewardResponse = dailyRewardAsync().await()
 
+    /**
+     * 账号安全情况
+     */
+    fun accountSecurityAsync(): Deferred<AccountSecurityResponse>
+
+    /**
+     * 账号安全情况
+     */
+    suspend fun accountSecurity(): AccountSecurityResponse = accountSecurityAsync().await()
+
+    /**
+     * 账号实名认证状态
+     */
+    fun realNameStatusAsync(): Deferred<RealNameStatusResponse>
+
+    /**
+     * 账号实名认证状态
+     */
+    suspend fun realNameStatus(): RealNameStatusResponse = realNameStatusAsync().await()
+
+    /**
+     * 账号详细实名信息
+     */
+    fun realNameApplyStatusAsync(): Deferred<RealNameApplyStatusResponse>
+
+    /**
+     * 账号详细实名信息
+     */
+    suspend fun realNameApplyStatus(): RealNameApplyStatusResponse = realNameApplyStatusAsync().await()
+
+    /**
+     * 硬币变化情况
+     */
+    fun coinLogAsync(): Deferred<CoinLogResponse>
+
+    /**
+     * 硬币变化情况
+     */
+    suspend fun coinLog(): CoinLogResponse = coinLogAsync().await()
+
+    /**
+     * 修改签名
+     * @param sign 签名内容
+     */
+    fun updateSignAsync(sign: String): Deferred<UpdateSignResponse>
+
+    /**
+     * 修改签名
+     * @param sign 签名内容
+     */
+    suspend fun updateSign(sign: String): UpdateSignResponse = updateSignAsync(sign).await()
+
+
+    /// 个人中心 完
+
+
+    /// 
 }

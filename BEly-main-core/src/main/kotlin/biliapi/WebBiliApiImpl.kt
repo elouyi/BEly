@@ -1,12 +1,12 @@
 package com.elouyi.bely.biliapi
 
-import com.elouyi.bely.biliapi.data.personal.AccountInfoResponse
-import com.elouyi.bely.biliapi.data.personal.ExpResponse
-import com.elouyi.bely.biliapi.data.personal.RewardResponse
-import com.elouyi.bely.biliapi.data.personal.VipInfoResponse
+import com.elouyi.bely.biliapi.data.personal.*
 import com.elouyi.bely.contact.WebBiliBotImpl
+import com.elouyi.bely.security.utils.UserCookieCache
 import com.elouyi.bely.security.utils.withUserCookies
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
+import io.ktor.http.*
 import kotlinx.coroutines.*
 
 internal class WebBiliApiImpl(
@@ -46,6 +46,55 @@ internal class WebBiliApiImpl(
 
     override fun vipInfoAsync(): Deferred<VipInfoResponse> = async {
         bot.client.get(BiliApiUrl.vipInfo()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun accountSecurityAsync(): Deferred<AccountSecurityResponse> = async {
+        bot.client.get(BiliApiUrl.accountSecurity()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun realNameStatusAsync(): Deferred<RealNameStatusResponse> = async {
+        bot.client.get(BiliApiUrl.realNameStatus()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun realNameApplyStatusAsync(): Deferred<RealNameApplyStatusResponse> = async {
+        bot.client.get(BiliApiUrl.realNameApplyStatus()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun coinLogAsync(): Deferred<CoinLogResponse> = async {
+        bot.client.get(BiliApiUrl.coinLog()) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun updateSignAsync(sign: String): Deferred<UpdateSignResponse> = async {
+        bot.client.submitForm(
+            url = BiliApiUrl.updateSign(),
+            formParameters = Parameters.build {
+                append("user_sign",sign)
+                append("csrf",bot.cookies.bili_jct)
+            }
+        ) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override suspend fun exitLogin() {
+        bot.client.get<String>(BiliApiUrl.exitLogin()) {
+            withUserCookies(bot.cookies)
+        }
+        UserCookieCache.deleteCookies(bot.cookies)
+    }
+
+    override fun navDataAsync(): Deferred<NavDataResponse> = async {
+        bot.client.get(BiliApiUrl.navData()) {
             withUserCookies(bot.cookies)
         }
     }

@@ -16,16 +16,41 @@ import java.io.IOException
 import java.net.URLDecoder
 import kotlin.jvm.Throws
 
+internal interface IUserCookies {
+    val sessData: String
+    val dedeUserId: String
+    val dedeUserIDCkMd5: String
+    val bili_jct: String
+    val expiresTime: Long
+    val isExpires: Boolean
+}
+
 @Serializable
 internal data class UserCookies(
-    val sessData: String,
-    val dedeUserId: String,
-    val dedeUserIDCkMd5: String,
-    val bili_jct: String,
-    private val expiresTime: Long = System.currentTimeMillis() + 29L * 24 * 60 * 60 * 1000
-) {
-    val isExpires: Boolean
+    override val sessData: String,
+    override val dedeUserId: String,
+    override val dedeUserIDCkMd5: String,
+    override val bili_jct: String,
+    override val expiresTime: Long = System.currentTimeMillis() + 29L * 24 * 60 * 60 * 1000
+) : IUserCookies {
+    override val isExpires: Boolean
         get() = System.currentTimeMillis() > expiresTime
+}
+
+internal object EmptyUserCookies : IUserCookies {
+
+    override val sessData: String = ""
+
+    override val dedeUserId: String = ""
+
+    override val dedeUserIDCkMd5: String = ""
+
+    override val bili_jct: String = ""
+
+    override val expiresTime: Long = 0
+
+    override val isExpires: Boolean = true
+
 }
 
 
@@ -53,7 +78,14 @@ internal object UserCookieCache {
             }
             logger.v("写入用户 cookie 缓存 ${cookies.dedeUserId}")
         }
+    }
 
+    suspend fun deleteCookies(cookies: IUserCookies) {
+        val file = File("$fileDir/${cookies.dedeUserId}.txt")
+        if (!file.exists()) return
+        withContext(Dispatchers.IO) {
+            file.delete()
+        }
     }
 
     /**
@@ -118,7 +150,7 @@ internal operator fun Headers.get(property: CookieProperty): String {
 }
 
 
-internal fun HttpRequestBuilder.withUserCookies(cookies: UserCookies) {
+internal fun HttpRequestBuilder.withUserCookies(cookies: IUserCookies) {
     cookie("SESSDATA",cookies.sessData)
     cookie("DedeUserID",cookies.dedeUserId)
     cookie("DedeUserID__ckMd5",cookies.dedeUserIDCkMd5)
