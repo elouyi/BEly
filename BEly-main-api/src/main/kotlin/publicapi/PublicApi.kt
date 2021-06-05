@@ -6,6 +6,8 @@ import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 
+// TODO: 2021/6/5 加上 public 后缀，区分需要登录的 api
+
 /**
  * Bilibili 无需登录的 API
  */

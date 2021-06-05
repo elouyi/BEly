@@ -13,6 +13,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.io.IOException
+import java.net.URLDecoder
 import kotlin.jvm.Throws
 
 @Serializable
@@ -55,13 +56,30 @@ internal object UserCookieCache {
 
     }
 
+    /**
+     * 从缓存文件中读取指定 uid 的 cookie
+     * @return null when cache file dose not exist or cookie expired
+     * @see UserCookies
+     */
     suspend fun getCookies(uid: Long): UserCookies? {
         return withContext(Dispatchers.IO) {
             val file = File("$fileDir/${uid}.txt").also {
                 if (!it.exists()) return@withContext null
             }
             try {
-                val str = file.readText()
+                // wdnmd
+                val str = URLDecoder.decode(file.readText(),"utf-8")
+                /*
+                val sb = StringBuilder()
+                val buff = ByteArray(1024)
+                var len = 0
+                file.inputStream().use { inputstream ->
+                    while (inputstream.read(buff).also { len = it } != -1) {
+                        sb.append(String(buff,0,len))
+                    }
+                }
+                val str = sb.toString()
+                */
                 val cookies = Json.decodeFromString<UserCookies>(str)
                 if (cookies.isExpires) {
                     logger.w("$uid cookie 缓存已过期")
