@@ -10,6 +10,12 @@ internal object BiliApiUrl {
         return accessKey("https://api.bilibili.com/x/member/web/exp/reward",access_key)
     }
 
+    fun exp(): String  =
+        "https://www.bilibili.com/plus/account/exp.php"
+
+    fun vipInfo(): String =
+        "https://api.bilibili.com/x/vip/web/user/info"
+
     private fun accessKey(url: String,access_key: String? = null): String {
         if (access_key == null) return url
         return buildString {

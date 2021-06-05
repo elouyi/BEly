@@ -3,9 +3,10 @@ package com.elouyi.bely
 import com.elouyi.bely.config.BotConfigurationBuilder
 import com.elouyi.bely.contact.BiliBot
 import com.elouyi.bely.contact.WebBiliBot
+import com.elouyi.bely.contact.WebBiliBotImpl
 
 
-fun BiliBotFactory.Companion.newAppBot(uid: Long, config: BotConfigurationBuilder.() -> Unit = {}): BiliBot {
+internal fun newAppBot(uid: Long, config: BotConfigurationBuilder.() -> Unit = {}): BiliBot {
     TODO("Not yet implemented")
 }
 
@@ -15,8 +16,8 @@ fun BiliBotFactory.Companion.newAppBot(uid: Long, config: BotConfigurationBuilde
  * @param config 配置
  * @see BotConfigurationBuilder
  */
-fun BiliBotFactory.Companion.newWebBot(uid: Long, config: BotConfigurationBuilder.() -> Unit = {}): BiliBot {
+internal fun newWebBot(uid: Long, config: BotConfigurationBuilder.() -> Unit = {}): WebBiliBot {
     val configurationBuilder = BotConfigurationBuilder()
     configurationBuilder.config()
-    return WebBiliBot(uid,configurationBuilder.build())
+    return WebBiliBotImpl(uid,configurationBuilder.build())
 }

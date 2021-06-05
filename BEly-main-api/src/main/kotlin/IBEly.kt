@@ -19,6 +19,8 @@ interface IBEly {
      * 无需登录的 API
      */
     val publicApi: PublicApi
+
+    val botFactory: BiliBotFactory
 }
 
 @Suppress("ClassName","UncheckedCast")

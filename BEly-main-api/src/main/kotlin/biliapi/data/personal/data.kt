@@ -29,7 +29,7 @@ data class AccountInfoData(
  * 每日状态
  * @property login 每日登录
  * @property watch 每日观看
- * @property coins 每日获得硬币，上限为 50
+ * @property coins 每日获得硬币，上限为 50 该值更新存在延迟
  * @property share 每日分享
  * @property email 是否绑定邮箱
  * @property tel 是否绑定手机号
@@ -46,4 +46,21 @@ data class RewardData(
     val tel: Boolean,
     val safe_question: Boolean,
     val identify_card: Boolean
+)
+
+/**
+ * 大会员信息
+ * @property mid uid
+ * @property vip_pay_type 大会员类型 0:无，1:月度，2:年度
+ * @property vip_due_date 大会员到期时间 毫秒时间戳
+ * @property vip_pay_type 是否已购买大会员 0:未购买，1:已购买
+ * @property theme_type 尚不明确
+ */
+@Serializable
+data class VipInfoData(
+    val mid: Long,
+    val vip_type: Int,
+    val vip_due_date: Long,
+    val vip_pay_type: Long,
+    val theme_type: Int,
 )

@@ -1,7 +1,7 @@
 package com.elouyi.bely.contact
 
-import com.elouyi.bely.biliapi.BiliApi
 import com.elouyi.bely.biliapi.WebBiliApi
+import com.elouyi.bely.biliapi.WebBiliApiImpl
 import com.elouyi.bely.config.BotConfiguration
 import com.elouyi.bely.security.Verification
 import com.elouyi.bely.security.utils.*
@@ -15,10 +15,10 @@ import com.elouyi.bely.utils.readLinec
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 
-internal class WebBiliBot(
+internal class WebBiliBotImpl(
     uid: Long,
     config: BotConfiguration
-) : AbstractBiliBot(uid,config) {
+) : AbstractBiliBot(uid,config),WebBiliBot {
 
     init {
         runBlocking {
@@ -32,7 +32,7 @@ internal class WebBiliBot(
         }
     }
 
-    override val biliApi: BiliApi = WebBiliApi(this)
+    override val biliApi: WebBiliApi = WebBiliApiImpl(this)
 
     override val name: String
         get() = TODO("Not yet implemented")

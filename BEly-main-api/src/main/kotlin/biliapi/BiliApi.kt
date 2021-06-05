@@ -1,15 +1,13 @@
 package com.elouyi.bely.biliapi
 
-import com.elouyi.bely.biliapi.data.personal.AccountInfoData
-import com.elouyi.bely.biliapi.data.personal.AccountInfoResponse
-import com.elouyi.bely.biliapi.data.personal.RewardResponse
+import com.elouyi.bely.biliapi.data.personal.*
 import com.elouyi.bely.contact.BiliBot
 import com.elouyi.bely.publicapi.PublicApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 
 /**
- * Bilibili 需要登录的 api
+ * Bilibili 需要登录的 api,此接口中的方法在 web 和 app 端都有
  * @see [PublicApi]
  */
 interface BiliApi : CoroutineScope {
@@ -29,6 +27,7 @@ interface BiliApi : CoroutineScope {
 
     /**
      * 每日奖励状态
+     * @see RewardData
      */
     fun dailyRewardAsync(): Deferred<RewardResponse>
 
