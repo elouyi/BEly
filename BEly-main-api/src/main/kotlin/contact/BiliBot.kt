@@ -1,9 +1,18 @@
 package com.elouyi.bely.contact
 
+import com.elouyi.bely.BiliBotFactory
 import com.elouyi.bely.biliapi.BiliApi
 import com.elouyi.bely.utils.ElyLogger
 import io.ktor.client.*
 
+/**
+ * Bili 机器人,由[BiliBotFactory] 构造:
+ * ```kotlin
+ * val bot = BiliBotFactory.newBot(uid)
+ * ```
+ * @see WebBiliBot
+ * @see AppBiliBot
+ */
 interface BiliBot : Contact {
 
     override val uid: Long

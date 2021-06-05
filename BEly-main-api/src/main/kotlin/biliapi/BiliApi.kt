@@ -8,8 +8,14 @@ import kotlinx.coroutines.Deferred
 
 /**
  * Bilibili 需要登录的 api,此接口中的方法在 web 和 app 端都有
- * @see WebBiliApi Web 独有的 api
- * @see AppBiliApi App 独有的 api
+ *
+ * [WebBiliApi] 中有 web 专用的 api
+ *
+ * [AppBiliApi] 中有 app 专用的 api
+ *
+ * [PublicApi] 与此接口无关，但有公共的 api
+ * @see WebBiliApi
+ * @see AppBiliApi
  * @see [PublicApi]
  */
 interface BiliApi : CoroutineScope {
