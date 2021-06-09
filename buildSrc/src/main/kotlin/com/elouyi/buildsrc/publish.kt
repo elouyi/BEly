@@ -118,7 +118,7 @@ fun Project.mavenPublish(aid: String) {
                         name = "OSSRH"
                         setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                         username = uname
-                        password = pp
+                        password = pwd
                     }
 
                 }
