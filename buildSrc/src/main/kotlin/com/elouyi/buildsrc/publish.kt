@@ -37,11 +37,24 @@ val org.gradle.api.Project.`publishing`: org.gradle.api.publish.PublishingExtens
 
 fun Project.mavenPublish(aid: String) {
     afterEvaluate {
-        val uname = System.getenv("MAVEN_USERNAME")
-        val pwd = System.getenv("MAVEN_PASSWORD")
-        val base64 = decryptBase64(System.getenv("KEYRINGBASE64"))
-        val pp = System.getenv("PP")
-        val keyId = System.getenv("KEY_ID")
+
+
+        val uname: String
+        val pwd: String
+        val base64: String
+        val pp: String
+        val keyId: String
+
+        try {
+            uname = System.getenv("MAVEN_USERNAME")
+            pwd = System.getenv("MAVEN_PASSWORD")
+            base64 = decryptBase64(System.getenv("KEYRINGBASE64"))
+            pp = System.getenv("PP")
+            keyId = System.getenv("KEY_ID")
+        } catch (e: Exception) {
+            println("no publish")
+            return@afterEvaluate
+        }
         publishing {
 
             val sourcesJar by tasks.registering(Jar::class) {
