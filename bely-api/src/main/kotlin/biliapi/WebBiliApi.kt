@@ -4,12 +4,25 @@ import com.elouyi.bely.biliapi.data.message.*
 import com.elouyi.bely.biliapi.data.personal.ExpResponse
 import com.elouyi.bely.biliapi.data.personal.NavDataResponse
 import com.elouyi.bely.biliapi.data.personal.VipInfoResponse
+import com.elouyi.bely.contact.BiliBot
+import com.elouyi.bely.contact.WebBiliBot
+import com.elouyi.bely.utils.ElyLogger
+import io.ktor.client.*
+import io.ktor.client.request.*
 import kotlinx.coroutines.Deferred
 
 /**
  * WebBiliBot 专有的 api
  */
 interface WebBiliApi : BiliApi {
+
+    override val bot: WebBiliBot
+
+    override val logger: ElyLogger
+        get() = bot.logger
+
+    override val client: HttpClient
+        get() = bot.client
 
     /**
      * 每日经验

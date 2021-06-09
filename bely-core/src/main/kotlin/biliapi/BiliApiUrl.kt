@@ -1,6 +1,8 @@
 package com.elouyi.bely.biliapi
 
-internal interface BiliApiUrl  {
+import com.elouyi.bely.publicapi.PublicApiUrl
+
+internal interface BiliApiUrl : PublicApiUrl  {
 
     fun account(access_key: String? = null): String =
         accessKey("https://api.bilibili.com/x/member/web/account",access_key)
@@ -50,13 +52,39 @@ internal interface BiliApiUrl  {
     fun sendMessageWeb(): String =
         "https://api.vc.bilibili.com/web_im/v1/web_im/send_msg"
 
-    private fun accessKey(url: String,access_key: String? = null): String {
-        if (access_key == null) return url
-        return buildString {
-            append(url)
-            append("/?access_key=$access_key")
-        }
-    }
+    fun relationFollowingSearch(
+        vmid: Long,
+        name: String,
+        access_key: String? = null,
+        ps: Int = 50,
+        pn: Int = 1
+    ): String =
+        accessKey("https://api.bilibili.com/x/relation/followings/search?vmid=$vmid&name=$name&ps=$ps&pn=$pn",access_key)
+
+    fun relationSameFollowings(
+        vmid: Long,
+        access_key: String? = null,
+        ps: Int = 50,
+        pn: Int = 1
+    ): String =
+        accessKey("https://api.bilibili.com/x/relation/same/followings?vmid=$vmid&&ps=$ps&pn=$pn",access_key)
+
+    fun relationWhispers(
+        access_key: String? = null,
+        ps: Int = 50,
+        pn: Int = 1
+    ): String =
+        accessKey("https://api.bilibili.com/x/relation/whispers?ps=$ps&pn=$pn",access_key)
+
+    fun relationBlacks(
+        access_key: String? = null,
+        ps: Int = 50,
+        pn: Int = 1
+    ): String =
+        accessKey("https://api.bilibili.com/x/relation/blacks?ps=$ps&pn=$pn",access_key)
+
+    fun relationModify(access_key: String? = null): String =
+        accessKey("https://api.bilibili.com/x/relation/modify",access_key)
 
     companion object : BiliApiUrl
 }

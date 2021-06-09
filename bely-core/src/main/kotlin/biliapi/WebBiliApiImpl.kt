@@ -2,9 +2,17 @@ package com.elouyi.bely.biliapi
 
 import com.elouyi.bely.biliapi.data.message.*
 import com.elouyi.bely.biliapi.data.personal.*
+import com.elouyi.bely.biliapi.data.relation.*
 import com.elouyi.bely.contact.WebBiliBotImpl
+import com.elouyi.bely.publicapi.response.AccInfoResponse
+import com.elouyi.bely.publicapi.response.MasterPieceResponse
+import com.elouyi.bely.publicapi.response.RelationResponse
+import com.elouyi.bely.publicapi.response.VideoResponse
 import com.elouyi.bely.security.utils.UserCookieCache
 import com.elouyi.bely.security.utils.withUserCookies
+import com.elouyi.bely.utils.ElyLogger
+import com.elouyi.bely.utils.getWithCookies
+import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
@@ -13,6 +21,8 @@ import kotlinx.coroutines.*
 internal class WebBiliApiImpl(
     override val bot: WebBiliBotImpl
 ) : WebBiliApi {
+
+
 
     override val coroutineContext = CoroutineName(
         "${bot.uid} biliApi" +
@@ -176,6 +186,103 @@ internal class WebBiliApiImpl(
                     withUserCookies(bot.cookies)
                 }
             }
+        }
+    }
+
+    override suspend fun dailyExp(): ExpResponse {
+        return super.dailyExp()
+    }
+
+    override fun videoInfoAsync(av: Long): Deferred<VideoResponse> = async {
+        client.get(BiliApiUrl.videoInfo(av)) {
+            withUserCookies(bot.cookies)
+        }
+    }
+
+    override fun videoInfoAsync(bv: String): Deferred<VideoResponse> = async {
+        getWithCookies(BiliApiUrl.videoInfo(bv))
+    }
+
+    override fun relationAsync(uid: Long): Deferred<RelationResponse> = async {
+        getWithCookies(BiliApiUrl.relation(uid))
+    }
+
+    override fun masterPieceAsync(uid: Long): Deferred<MasterPieceResponse> = async {
+        getWithCookies(BiliApiUrl.masterPiece(uid))
+    }
+
+    override fun accInfoAsync(uid: Long): Deferred<AccInfoResponse> = async {
+        getWithCookies(BiliApiUrl.accInfo(uid))
+    }
+
+    override fun relationFollowersAsync(
+        vmid: Long,
+        access_key: String?,
+        ps: Int,
+        pn: Int
+    ): Deferred<RelationFollowerResponse> = async {
+        getWithCookies(BiliApiUrl.relationFollowers(vmid, access_key, ps, pn))
+    }
+
+    override fun relationFollowingsAsync(
+        vmid: Long,
+        access_key: String?,
+        ps: Int,
+        pn: Int
+    ): Deferred<RelationFollowingResponse> = async {
+        getWithCookies(BiliApiUrl.relationFollowings(vmid, access_key, ps, pn))
+    }
+
+    override fun relationFollowingsSearchAsync(
+        mid: Long,
+        name: String,
+        access_key: String?,
+        ps: Int,
+        pn: Int
+    ): Deferred<RelationFollowingsSearchResponse> = async {
+        getWithCookies(BiliApiUrl.relationFollowingSearch(mid,name, access_key, ps, pn))
+    }
+
+    override fun relationSameFollowingsAsync(
+        vmid: Long,
+        access_key: String?,
+        ps: Int,
+        pn: Int
+    ): Deferred<RelationSameFollowingsResponse> = async {
+        getWithCookies(BiliApiUrl.relationSameFollowings(vmid, access_key, ps, pn))
+    }
+
+    override fun relationWhispersAsync(
+        access_key: String?,
+        ps: Int,
+        pn: Int
+    ): Deferred<RelationWhispersResponse> = async {
+        getWithCookies(BiliApiUrl.relationWhispers(access_key, ps, pn))
+    }
+
+    override fun relationBlacksAsync(
+        access_key: String?,
+        ps: Int,
+        pn: Int
+    ): Deferred<RelationBlacksResponse> = async {
+        getWithCookies(BiliApiUrl.relationBlacks(access_key, ps, pn))
+    }
+
+    override fun relationSubscribeAsync(
+        fid: Long,
+        re_src: RelationSubscribeSrc,
+        access_key: String?
+    ): Deferred<RelationModifyResponse> = async {
+        client.submitForm(
+            url = BiliApiUrl.relationModify(),
+            formParameters = Parameters.build {
+                append("fid",fid.toString())
+                append("act",RelationAction.SUBSCRIBE.value.toString())
+                append("re_src",re_src.value.toString())
+                append("csrf",bot.cookies.bili_jct)
+            }
+        ) {
+            withUserCookies(bot.cookies)
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.elouyi.bely.publicapi
 
+import com.elouyi.bely.biliapi.data.relation.RelationFollowerResponse
+import com.elouyi.bely.biliapi.data.relation.RelationFollowingResponse
 import com.elouyi.bely.publicapi.response.AccInfoResponse
 import com.elouyi.bely.publicapi.response.MasterPieceResponse
 import com.elouyi.bely.publicapi.response.RelationResponse
@@ -50,5 +52,23 @@ internal object PublicApiImpl : PublicApi {
 
     override fun accInfoAsync(uid: Long): Deferred<AccInfoResponse> = async {
         client.get(PublicApiUrl.accInfo(uid))
+    }
+
+    override fun relationFollowersAsync(
+        vmid: Long,
+        access_key: String?,
+        ps: Int,
+        pn: Int
+    ): Deferred<RelationFollowerResponse> = async {
+        client.get(PublicApiUrl.relationFollowers(vmid,access_key, ps, pn))
+    }
+
+    override fun relationFollowingsAsync(
+        vmid: Long,
+        access_key: String?,
+        ps: Int,
+        pn: Int
+    ): Deferred<RelationFollowingResponse> = async {
+        client.get(PublicApiUrl.relationFollowings(vmid, access_key, ps, pn))
     }
 }

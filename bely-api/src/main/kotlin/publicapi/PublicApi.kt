@@ -1,5 +1,7 @@
 package com.elouyi.bely.publicapi
 
+import com.elouyi.bely.biliapi.data.relation.RelationFollowerResponse
+import com.elouyi.bely.biliapi.data.relation.RelationFollowingResponse
 import com.elouyi.bely.publicapi.response.*
 import com.elouyi.bely.utils.ElyLogger
 import io.ktor.client.*
@@ -90,8 +92,73 @@ interface PublicApi : CoroutineScope {
      */
     suspend fun masterPiece(uid: Long): MasterPieceResponse = masterPieceAsync(uid).await()
 
+    /**
+     * 账号信息
+     * @param uid 用户 uid
+     * @see AccInfoData
+     */
     fun accInfoAsync(uid: Long): Deferred<AccInfoResponse>
 
+    /**
+     * 账号信息
+     * @param uid 用户 uid
+     * @see AccInfoData
+     */
     suspend fun accInfo(uid: Long): AccInfoResponse = accInfoAsync(uid).await()
 
+    /**
+     * 用户粉丝查询,登录可查看自己全部，其他用户仅可查看前五页
+     * @param vmid 用户 uid
+     * @param access_key app登录方式必要
+     * @param ps 每页项数
+     * @param pn 第几页
+     */
+    fun relationFollowersAsync(
+        vmid: Long,
+        access_key: String? = null,
+        ps: Int = 50,
+        pn: Int = 50
+    ) : Deferred<RelationFollowerResponse>
+
+    /**
+     * 用户粉丝查询,登录可查看自己全部，其他用户仅可查看前五页
+     * @param vmid 用户 uid
+     * @param access_key app登录方式必要
+     * @param ps 每页项数
+     * @param pn 第几页
+     */
+    suspend fun relationFollowers(
+        vmid: Long,
+        access_key: String? = null,
+        ps: Int = 50,
+        pn: Int = 1
+    ) : RelationFollowerResponse = relationFollowersAsync(vmid, access_key, ps, pn).await()
+
+    /**
+     * 用户关注查询,登录可查看自己全部，其他用户仅可查看前五页
+     * @param vmid 用户 uid
+     * @param access_key app登录方式必要
+     * @param ps 每页项数
+     * @param pn 第几页
+     */
+    fun relationFollowingsAsync(
+        vmid: Long,
+        access_key: String? = null,
+        ps: Int = 50,
+        pn: Int = 1
+    ) : Deferred<RelationFollowingResponse>
+
+    /**
+     * 用户关注查询,登录可查看自己全部，其他用户仅可查看前五页
+     * @param vmid 用户 uid
+     * @param access_key app登录方式必要
+     * @param ps 每页项数
+     * @param pn 第几页
+     */
+    suspend fun relationFollowings(
+        vmid: Long,
+        access_key: String? = null,
+        ps: Int = 50,
+        pn: Int = 1
+    ) : RelationFollowingResponse = relationFollowingsAsync(vmid, access_key, ps, pn).await()
 }
