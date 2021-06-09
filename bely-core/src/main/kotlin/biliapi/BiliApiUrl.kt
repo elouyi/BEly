@@ -1,6 +1,6 @@
 package com.elouyi.bely.biliapi
 
-internal object BiliApiUrl {
+internal interface BiliApiUrl  {
 
     fun account(access_key: String? = null): String =
         accessKey("https://api.bilibili.com/x/member/web/account",access_key)
@@ -57,4 +57,6 @@ internal object BiliApiUrl {
             append("/?access_key=$access_key")
         }
     }
+
+    companion object : BiliApiUrl
 }

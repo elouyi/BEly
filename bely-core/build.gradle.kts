@@ -4,10 +4,12 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization") version Versions.kotlin
     `maven-publish`
+    maven
+    signing
 }
 
 dependencies {
-    api(project(":BEly-main-api"))
+    api(project(":bely-api"))
     api("io.ktor:ktor-client-cio:${Versions.ktor}")
     api(ktorClient("okhttp"))
     api("io.ktor:ktor-client-json:${Versions.ktor}")
@@ -17,3 +19,7 @@ dependencies {
     implementation("com.google.zxing:javase:${Versions.zxing}")
 
 }
+
+
+mavenPublish("bely-core")
+

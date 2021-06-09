@@ -3,7 +3,7 @@ package com.elouyi.bely.publicapi
 /**
  * API 的结构地址
  */
-object PublicApiUrl {
+interface PublicApiUrl {
 
     fun videoInfo(av: Long): String =
         "https://api.bilibili.com/x/web-interface/view?aid=$av"
@@ -23,4 +23,6 @@ object PublicApiUrl {
 
     fun accInfo(uid: Long): String =
         "https://api.bilibili.com/x/space/acc/info?mid=$uid"
+
+    companion object : PublicApiUrl
 }

@@ -3,7 +3,7 @@ package com.elouyi.bely.security.data
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class WebLoginParam(
+internal data class WebPasswordLoginParam(
     val captchaType: Int = 6,
     val username: String,
     val password: String,

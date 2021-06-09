@@ -13,6 +13,7 @@ buildscript {
 }
 
 allprojects {
+    version = Versions.BEly
     repositories {
         mavenCentral()
     }
