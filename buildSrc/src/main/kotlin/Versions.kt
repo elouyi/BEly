@@ -1,6 +1,6 @@
 object Versions {
 
-    const val BEly = "0.0.3-t2"
+    const val BEly = "0.0.3-t3"
 
     const val kotlin = "1.5.10"
     const val coroutines = "1.5.0"
