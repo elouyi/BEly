@@ -47,12 +47,12 @@ fun Project.mavenPublish(aid: String) {
         val u: String
 
         try {
+            u = System.getenv("MUN")
             uname = System.getenv("MAVEN_USERNAME")
             pwd = System.getenv("MAVEN_PASSWORD")
             base64 = decryptBase64(System.getenv("KEYRINGBASE64"))
             pp = System.getenv("PP")
             keyId = System.getenv("KEY_ID")
-            u = System.getenv("UN")
         } catch (e: Exception) {
             println("no publish")
             return@afterEvaluate
