@@ -44,6 +44,7 @@ fun Project.mavenPublish(aid: String) {
         val base64: String
         val pp: String
         val keyId: String
+        val u: String
 
         try {
             uname = System.getenv("MAVEN_USERNAME")
@@ -51,6 +52,7 @@ fun Project.mavenPublish(aid: String) {
             base64 = decryptBase64(System.getenv("KEYRINGBASE64"))
             pp = System.getenv("PP")
             keyId = System.getenv("KEY_ID")
+            u = System.getenv("UN")
         } catch (e: Exception) {
             println("no publish")
             return@afterEvaluate
@@ -127,8 +129,8 @@ fun Project.mavenPublish(aid: String) {
         project.setProperty("signing.keyId",keyId)
         project.setProperty("signing.password",pp)
         project.setProperty("signing.secretKeyRingFile",base64)
-        project.setProperty("ossrhUsername",uname)
-        project.setProperty("ossrhPassword",pwd)
+        project.setProperty("ossrhUsername",u)
+        project.setProperty("ossrhPassword",pp)
         signing {
             sign(publishing.publications["mavenJava"])
         }
