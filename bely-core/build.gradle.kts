@@ -4,7 +4,6 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.serialization") version Versions.kotlin
     `maven-publish`
-    maven
     signing
 }
 
