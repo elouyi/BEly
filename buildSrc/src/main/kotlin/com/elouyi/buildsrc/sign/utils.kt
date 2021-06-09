@@ -12,7 +12,9 @@ fun decryptBase64(base64: String): String {
     val b = Base64.getDecoder().decode(base64)
     FileOutputStream(file).use {
         it.write(b)
+        it.flush()
     }
     println(file.exists())
+    println(file.length())
     return file.absolutePath
 }
