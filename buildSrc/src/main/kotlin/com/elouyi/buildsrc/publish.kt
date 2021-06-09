@@ -55,6 +55,7 @@ fun Project.mavenPublish(aid: String) {
             println("no publish")
             return@afterEvaluate
         }
+        println("keyid is $keyId")
         publishing {
 
             val sourcesJar by tasks.registering(Jar::class) {
