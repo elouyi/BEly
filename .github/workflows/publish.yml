@@ -26,3 +26,4 @@ jobs:
           PP: ${{ secrets.PP }}
           KEY_ID: ${{ secrets.KEY_ID }}
           MUN: ${{ secrets.MUN }}
+          UP: ${{ secrets.UP }}
