@@ -20,7 +20,7 @@ import kotlin.jvm.Throws
  * 登录用户的 cookies
  */
 @Serializable
-open class UserCookies internal constructor(
+internal open class UserCookies(
     open val sessData: String,
     open val dedeUserId: String,
     open val dedeUserIDCkMd5: String,

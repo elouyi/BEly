@@ -27,5 +27,15 @@ interface BiliBotFactory {
     // todo
     fun newAppBot(uid: Long, config: BotConfigurationBuilder.() -> Unit = {}): BiliBot
 
+    /**
+     * 通过 cookie 直接构建一个 [WebBiliBot]
+     */
+    suspend fun newWebBotWithCookies(
+        SESSDATA: String,
+        DedeUserID: Long,
+        DedeUserID__ckMd5: String,
+        bili_jct: String
+    ): WebBiliBot
+
     companion object : BiliBotFactory by BEly.botFactory
 }

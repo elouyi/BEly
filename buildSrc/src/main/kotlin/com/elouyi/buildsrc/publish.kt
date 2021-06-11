@@ -86,7 +86,7 @@ fun Project.mavenPublish(aid: String) {
 
                         licenses {
                             license {
-                                name.set("GNU Affero General Public License v3.0")
+                                name.set("Apache-2.0 License")
                                 url.set("https://github.com/elouyi/BEly/blob/dev/LICENSE")
                             }
                         }

@@ -21,6 +21,7 @@ internal class WebBiliBotImpl(
 ) : AbstractBiliBot(uid,config),WebBiliBot {
 
     init {
+
         runBlocking {
             val c = UserCookieCache.getCookies(uid)
             if (c == null) {
