@@ -16,38 +16,35 @@ import java.io.IOException
 import java.net.URLDecoder
 import kotlin.jvm.Throws
 
-internal interface IUserCookies {
-    val sessData: String
-    val dedeUserId: String
-    val dedeUserIDCkMd5: String
-    val bili_jct: String
-    val expiresTime: Long
-    val isExpires: Boolean
-}
-
+/**
+ * 登录用户的 cookies
+ */
 @Serializable
-internal data class UserCookies(
-    override val sessData: String,
-    override val dedeUserId: String,
-    override val dedeUserIDCkMd5: String,
-    override val bili_jct: String,
-    override val expiresTime: Long = System.currentTimeMillis() + 29L * 24 * 60 * 60 * 1000
-) : IUserCookies {
-    override val isExpires: Boolean
+open class UserCookies internal constructor(
+    open val sessData: String,
+    open val dedeUserId: String,
+    open val dedeUserIDCkMd5: String,
+    open val bili_jct: String,
+    open val expiresTime: Long = System.currentTimeMillis() + 29L * 24 * 60 * 60 * 1000
+) {
+    open val isExpires: Boolean
         get() = System.currentTimeMillis() > expiresTime
+
+    companion object {
+
+        fun newCookies(sessData: String,dedeUserId: Long,dedeUserIDCkMd5: String,bili_jct: String): UserCookies {
+            return UserCookies(sessData,dedeUserId.toString(),dedeUserIDCkMd5, bili_jct)
+        }
+    }
 }
 
-internal object EmptyUserCookies : IUserCookies {
-
-    override val sessData: String = ""
-
-    override val dedeUserId: String = ""
-
-    override val dedeUserIDCkMd5: String = ""
-
-    override val bili_jct: String = ""
-
-    override val expiresTime: Long = 0
+internal object EmptyUserCookies : UserCookies(
+    sessData = "",
+    dedeUserId = "",
+    dedeUserIDCkMd5 = "",
+    bili_jct = "",
+    expiresTime = 0
+) {
 
     override val isExpires: Boolean = true
 
@@ -80,7 +77,8 @@ internal object UserCookieCache {
         }
     }
 
-    suspend fun deleteCookies(cookies: IUserCookies) {
+    suspend fun deleteCookies(cookies: UserCookies) {
+        if (cookies is EmptyUserCookies) return
         val file = File("$fileDir/${cookies.dedeUserId}.txt")
         if (!file.exists()) return
         withContext(Dispatchers.IO) {
@@ -150,7 +148,7 @@ internal operator fun Headers.get(property: CookieProperty): String {
 }
 
 
-internal fun HttpRequestBuilder.withUserCookies(cookies: IUserCookies) {
+internal fun HttpRequestBuilder.withUserCookies(cookies: UserCookies) {
     cookie("SESSDATA",cookies.sessData)
     cookie("DedeUserID",cookies.dedeUserId)
     cookie("DedeUserID__ckMd5",cookies.dedeUserIDCkMd5)

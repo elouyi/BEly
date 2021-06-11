@@ -16,16 +16,16 @@ import com.elouyi.bely.contact.WebBiliBot
  */
 interface BiliBotFactory {
 
+    /**
+     * 构建一个 web 协议的 bili bot
+     * @param uid 用户uid
+     * @param config 配置
+     * @see BotConfigurationBuilder
+     */
     fun newWebBot(uid: Long, config: BotConfigurationBuilder.() -> Unit = {}): WebBiliBot
 
+    // todo
     fun newAppBot(uid: Long, config: BotConfigurationBuilder.() -> Unit = {}): BiliBot
 
-    companion object : BiliBotFactory {
-        override fun newWebBot(uid: Long, config: BotConfigurationBuilder.() -> Unit): WebBiliBot =
-            BEly.botFactory.newWebBot(uid, config)
-
-        override fun newAppBot(uid: Long, config: BotConfigurationBuilder.() -> Unit): BiliBot =
-            BEly.botFactory.newAppBot(uid, config)
-
-    }
+    companion object : BiliBotFactory by BEly.botFactory
 }

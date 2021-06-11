@@ -34,10 +34,11 @@ internal class WebBiliBotImpl(
 
     override val biliApi: WebBiliApi = WebBiliApiImpl(this)
 
-    override val name: String
-        get() = TODO("Not yet implemented")
+    override val name: String by lazy {
+        "Not yet implemented"
+    }
 
-    var cookies: IUserCookies
+    var cookies: UserCookies
         private set
 
     override suspend fun login() {

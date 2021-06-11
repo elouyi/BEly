@@ -50,7 +50,7 @@ internal abstract class AbstractBiliBot(
         }
     }
 
-    protected open suspend fun loginWithQRCode(): IUserCookies? {
+    protected open suspend fun loginWithQRCode(): UserCookies? {
         logger.e("${javaClass.simpleName} 不支持验证码登录")
         return null
     }
