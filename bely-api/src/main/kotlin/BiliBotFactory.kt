@@ -30,7 +30,7 @@ interface BiliBotFactory {
     /**
      * 通过 cookie 直接构建一个 [WebBiliBot]
      */
-    suspend fun newWebBotWithCookies(
+    fun newWebBotWithCookies(
         SESSDATA: String,
         DedeUserID: Long,
         DedeUserID__ckMd5: String,

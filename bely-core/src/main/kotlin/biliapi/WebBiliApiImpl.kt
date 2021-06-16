@@ -285,4 +285,42 @@ internal class WebBiliApiImpl(
             withUserCookies(bot.cookies)
         }
     }
+
+    override fun relationModifyAsync(
+        fid: Long,
+        action: RelationAction,
+        re_src: RelationSubscribeSrc,
+        access_key: String?
+    ): Deferred<RelationModifyResponse> = async {
+         client.submitForm(
+             url = BiliApiUrl.relationModify(),
+             formParameters = Parameters.build {
+                 append("fid",fid.toString())
+                 append("act",action.value.toString())
+                 append("re_src",re_src.value.toString())
+                 append("csrf",bot.cookies.bili_jct)
+             }
+         ) {
+             withUserCookies(bot.cookies)
+         }
+    }
+
+    override fun relationBatchModifyAsync(
+        vararg fids: Long,
+        action: RelationAction,
+        re_src: RelationSubscribeSrc,
+        access_key: String?
+    ): Deferred<RelationBatchModifyResponse> = async {
+        client.submitForm(
+            url = BiliApiUrl.relationBatchModify(),
+            formParameters = Parameters.build {
+                append("fids",fids.joinToString(","))
+                append("act",action.value.toString())
+                append("re_src",re_src.value.toString())
+                append("csrf",bot.cookies.bili_jct)
+            }
+        ) {
+            withUserCookies(bot.cookies)
+        }
+    }
 }

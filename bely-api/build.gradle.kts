@@ -15,5 +15,8 @@ dependencies {
     api(kotlin("reflect"))
 }
 
+tasks.getByName<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
+    kotlinOptions.freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
+}
 
 mavenPublish("bely-api")

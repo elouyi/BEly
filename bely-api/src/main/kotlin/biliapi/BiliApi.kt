@@ -4,6 +4,7 @@ import com.elouyi.bely.biliapi.data.personal.*
 import com.elouyi.bely.biliapi.data.relation.*
 import com.elouyi.bely.contact.BiliBot
 import com.elouyi.bely.publicapi.PublicApi
+import com.elouyi.bely.utils.annotation.UnstableApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 
@@ -254,4 +255,55 @@ interface BiliApi : PublicApi, CoroutineScope {
         re_src: RelationSubscribeSrc = RelationSubscribeSrc.SPACE,
         access_key: String? = null
     ): RelationModifyResponse = relationSubscribeAsync(fid, re_src, access_key).await()
+
+    /**
+     * relation 操作,见 [RelationAction]
+     * @param fid 目标 uid
+     * @param action 操作方式
+     */
+    fun relationModifyAsync(
+        fid: Long,
+        action: RelationAction,
+        re_src: RelationSubscribeSrc = RelationSubscribeSrc.SPACE,
+        access_key: String? = null
+    ): Deferred<RelationModifyResponse>
+
+    /**
+     * relation 操作,见 [RelationAction]
+     * @param fid 目标 uid
+     * @param action 操作方式
+     */
+    suspend fun relationModify(
+        fid: Long,
+        action: RelationAction,
+        re_src: RelationSubscribeSrc = RelationSubscribeSrc.SPACE,
+        access_key: String? = null
+    ): RelationModifyResponse = relationModifyAsync(fid, action, re_src, access_key).await()
+
+    /**
+     * 批量操作
+     * @param fids 目标 uid
+     * @param action 操作方式
+     */
+    @UnstableApi
+    // TODO: 2021/6/11
+    fun relationBatchModifyAsync(
+        vararg fids: Long,
+        action: RelationAction,
+        re_src: RelationSubscribeSrc = RelationSubscribeSrc.SPACE,
+        access_key: String? = null
+    ): Deferred<RelationBatchModifyResponse>
+
+    /**
+     * 批量操作
+     * @param fids 目标 uid
+     * @param action 操作方式
+     */
+    @UnstableApi
+    suspend fun relationBatchModify(
+        vararg fids: Long,
+        action: RelationAction,
+        re_src: RelationSubscribeSrc = RelationSubscribeSrc.SPACE,
+        access_key: String? = null
+    ): RelationBatchModifyResponse = relationBatchModifyAsync(fids = fids, action, re_src, access_key).await()
 }

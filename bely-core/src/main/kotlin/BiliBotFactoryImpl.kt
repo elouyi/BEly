@@ -6,6 +6,7 @@ import com.elouyi.bely.contact.WebBiliBot
 import com.elouyi.bely.contact.WebBiliBotImpl
 import com.elouyi.bely.security.utils.UserCookieCache
 import com.elouyi.bely.security.utils.UserCookies
+import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KProperty
 
 internal object BiliBotFactoryImpl : BiliBotFactory {
@@ -20,14 +21,16 @@ internal object BiliBotFactoryImpl : BiliBotFactory {
         return WebBiliBotImpl(uid,configurationBuilder.build())
     }
 
-    override suspend fun newWebBotWithCookies(
+    override fun newWebBotWithCookies(
         SESSDATA: String,
         DedeUserID: Long,
         DedeUserID__ckMd5: String,
         bili_jct: String
     ): WebBiliBot {
         val cookies = UserCookies.newCookies(SESSDATA,DedeUserID,DedeUserID__ckMd5,bili_jct)
-        UserCookieCache.saveCookies(cookies)
+        runBlocking {
+            UserCookieCache.saveCookies(cookies)
+        }
         return WebBiliBotImpl(DedeUserID,BotConfigurationBuilder().build())
     }
 

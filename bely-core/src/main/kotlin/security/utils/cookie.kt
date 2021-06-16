@@ -142,7 +142,7 @@ internal object bili_jct : CookieProperty
 
 internal operator fun Headers.get(property: CookieProperty): String {
     val str = toString()
-    if (!str.contains(property.propertyName)) throw Exception("不存在 ${property.propertyName}")
+    if (!str.contains(property.propertyName)) throw Exception("header 中不存在 ${property.propertyName}")
     return str.substringAfter("${property.propertyName}=")
         .substringBefore(";")
 }

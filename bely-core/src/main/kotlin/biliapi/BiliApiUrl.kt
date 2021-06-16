@@ -86,5 +86,8 @@ internal interface BiliApiUrl : PublicApiUrl  {
     fun relationModify(access_key: String? = null): String =
         accessKey("https://api.bilibili.com/x/relation/modify",access_key)
 
+    fun relationBatchModify(): String =
+        "https://api.bilibili.com/x/relation/batch/modify"
+
     companion object : BiliApiUrl
 }
