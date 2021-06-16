@@ -34,6 +34,9 @@ interface PublicApiUrl {
         pn: Int = 1
     ): String = accessKey("https://api.bilibili.com/x/relation/followings?vmid=$vmid&ps=$ps&pn=$pn",access_key)
 
+    fun checkNickName(nickName: String): String =
+        "https://passport.bilibili.com/web/generic/check/nickname?nickName=$nickName"
+
     fun accessKey(url: String,access_key: String? = null): String {
         if (access_key == null) return url
         return buildString {
@@ -41,6 +44,9 @@ interface PublicApiUrl {
             append("/?access_key=$access_key")
         }
     }
+
+    fun webDanmuku(type: Int,oid: Int,segment_index: Int): String =
+        "https://api.bilibili.com/x/v2/dm/web/seg.so?type=$type&oid=$oid&segment_index=$segment_index"
 
     companion object : PublicApiUrl
 }

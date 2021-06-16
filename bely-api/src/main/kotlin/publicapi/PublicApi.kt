@@ -1,9 +1,11 @@
 package com.elouyi.bely.publicapi
 
+import com.elouyi.bely.biliapi.data.personal.CheckNickNameResponse
 import com.elouyi.bely.biliapi.data.relation.RelationFollowerResponse
 import com.elouyi.bely.biliapi.data.relation.RelationFollowingResponse
 import com.elouyi.bely.publicapi.response.*
 import com.elouyi.bely.utils.ElyLogger
+import com.elouyi.bely.utils.annotation.TodoApi
 import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -159,4 +161,21 @@ interface PublicApi : CoroutineScope {
         ps: Int = 50,
         pn: Int = 1
     ) : RelationFollowingResponse = relationFollowingsAsync(vmid, access_key, ps, pn).await()
+
+    /**
+     * 检查昵称是否可用
+     * @param nickName 昵称
+     * @see CheckNickNameResponse
+     */
+    fun checkNickNameAsync(nickName: String): Deferred<CheckNickNameResponse>
+
+    /**
+     * 网页视频弹幕
+     * @param type 弹幕类型, 1为视频弹幕
+     * @param oid 视频 cid
+     * @param segment_index 分包，六分钟一包
+     */
+    @TodoApi
+    fun webDanmukuAsync(type: Int,oid: Int,segment_index: Int): Deferred<Nothing>
+
 }

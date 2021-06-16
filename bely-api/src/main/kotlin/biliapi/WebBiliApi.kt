@@ -4,9 +4,11 @@ import com.elouyi.bely.biliapi.data.message.*
 import com.elouyi.bely.biliapi.data.personal.ExpResponse
 import com.elouyi.bely.biliapi.data.personal.NavDataResponse
 import com.elouyi.bely.biliapi.data.personal.VipInfoResponse
+import com.elouyi.bely.biliapi.data.search.SearchAllWebResponse
 import com.elouyi.bely.contact.BiliBot
 import com.elouyi.bely.contact.WebBiliBot
 import com.elouyi.bely.utils.ElyLogger
+import com.elouyi.bely.utils.annotation.UnstableApi
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.Deferred
@@ -90,7 +92,7 @@ interface WebBiliApi : BiliApi {
         msg: String,
         target: Long,
         type: SendMessageData.MsgType = SendMessageData.MsgType.TEXT
-    ) : Deferred<SendMessageResponse>
+    ): Deferred<SendMessageResponse>
 
     /**
      * 发送私信
@@ -103,6 +105,14 @@ interface WebBiliApi : BiliApi {
         msg: String,
         target: Long,
         type: SendMessageData.MsgType = SendMessageData.MsgType.TEXT
-    ) : SendMessageResponse = sendMessageAsync(msg, target, type).await()
+    ): SendMessageResponse = sendMessageAsync(msg, target, type).await()
+
+    /**
+     * @param keyword 关键字
+     */
+    @UnstableApi
+    fun searchAllAsync(
+        keyword: String
+    ): Deferred<SearchAllWebResponse>
 
 }

@@ -3,7 +3,10 @@ package com.elouyi.bely.biliapi
 import com.elouyi.bely.biliapi.data.message.*
 import com.elouyi.bely.biliapi.data.personal.*
 import com.elouyi.bely.biliapi.data.relation.*
+import com.elouyi.bely.biliapi.data.search.SearchAllWebResponse
 import com.elouyi.bely.contact.WebBiliBotImpl
+import com.elouyi.bely.publicapi.PublicApi
+import com.elouyi.bely.publicapi.PublicApiImpl
 import com.elouyi.bely.publicapi.response.AccInfoResponse
 import com.elouyi.bely.publicapi.response.MasterPieceResponse
 import com.elouyi.bely.publicapi.response.RelationResponse
@@ -20,15 +23,17 @@ import kotlinx.coroutines.*
 
 internal class WebBiliApiImpl(
     override val bot: WebBiliBotImpl
-) : WebBiliApi {
+) : WebBiliApi, PublicApi by PublicApiImpl {
 
+    override val client: HttpClient = super.client
 
+    override val logger: ElyLogger = super.logger
 
     override val coroutineContext = CoroutineName(
         "${bot.uid} biliApi" +
                 SupervisorJob() +
                 CoroutineExceptionHandler { _, throwable ->
-                    bot.logger.e("PublicApi:",throwable)
+                    logger.e("WebApiApi:",throwable)
                 } +
                 Dispatchers.IO
     )
@@ -323,4 +328,9 @@ internal class WebBiliApiImpl(
             withUserCookies(bot.cookies)
         }
     }
+
+    override fun searchAllAsync(keyword: String): Deferred<SearchAllWebResponse> = async {
+        getWithCookies(BiliApiUrl.searchAllWeb(keyword))
+    }
+
 }

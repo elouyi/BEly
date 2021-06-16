@@ -7,3 +7,6 @@ annotation class UnstableApi
 
 @RequiresOptIn("这个 api 不再支持，通常会抛出一个异常，并且在未来会被移除",RequiresOptIn.Level.ERROR)
 annotation class UnSupportedApi
+
+@RequiresOptIn("这个 api 尚未完成",RequiresOptIn.Level.ERROR)
+annotation class TodoApi

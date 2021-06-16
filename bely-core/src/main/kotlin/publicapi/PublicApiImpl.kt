@@ -1,5 +1,6 @@
 package com.elouyi.bely.publicapi
 
+import com.elouyi.bely.biliapi.data.personal.CheckNickNameResponse
 import com.elouyi.bely.biliapi.data.relation.RelationFollowerResponse
 import com.elouyi.bely.biliapi.data.relation.RelationFollowingResponse
 import com.elouyi.bely.publicapi.response.AccInfoResponse
@@ -7,6 +8,7 @@ import com.elouyi.bely.publicapi.response.MasterPieceResponse
 import com.elouyi.bely.publicapi.response.RelationResponse
 import com.elouyi.bely.publicapi.response.VideoResponse
 import com.elouyi.bely.utils.ElyLogger
+import com.elouyi.bely.utils.annotation.TodoApi
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.*
@@ -71,4 +73,15 @@ internal object PublicApiImpl : PublicApi {
     ): Deferred<RelationFollowingResponse> = async {
         client.get(PublicApiUrl.relationFollowings(vmid, access_key, ps, pn))
     }
+
+    override fun checkNickNameAsync(nickName: String): Deferred<CheckNickNameResponse> = async {
+        client.get(PublicApiUrl.checkNickName(nickName))
+    }
+
+    @TodoApi
+    override fun webDanmukuAsync(type: Int, oid: Int, segment_index: Int): Deferred<Nothing> = async {
+        error("todo")
+        //client.get(PublicApiUrl.webDanmuku(type, oid, segment_index))
+    }
+
 }

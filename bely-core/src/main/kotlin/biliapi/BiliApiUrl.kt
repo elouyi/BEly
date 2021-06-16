@@ -89,5 +89,8 @@ internal interface BiliApiUrl : PublicApiUrl  {
     fun relationBatchModify(): String =
         "https://api.bilibili.com/x/relation/batch/modify"
 
+    fun searchAllWeb(keywords: String): String =
+        "https://api.bilibili.com/x/web-interface/search/all/v2?keyword=$keywords"
+
     companion object : BiliApiUrl
 }
