@@ -30,6 +30,6 @@ bot.biliApi.xxx()
 
 ```
 目前实现的api:
-[publicApi](/BEly-main-api/src/main/kotlin/publicapi/PublicApi.kt)
-[BiliApi](/BEly-main-api/src/main/kotlin/biliapi/BiliApi.kt)
-[WebBiliApi](/BEly-main-api/src/main/kotlin/biliapi/WebBiliApi.kt)
+[publicApi](/bely-api/src/main/kotlin/publicapi/PublicApi.kt)
+[BiliApi](/bely-api/src/main/kotlin/biliapi/BiliApi.kt)
+[WebBiliApi](/bely-api/src/main/kotlin/biliapi/WebBiliApi.kt)
