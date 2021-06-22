@@ -1,4 +1,4 @@
-package com.elouyi.bely.internal.utils
+package com.elouyi.bely.utils
 
 import com.elouyi.bely.utils.ElyColor
 import com.elouyi.bely.utils.ElyLoggerAbstract

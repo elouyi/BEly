@@ -1,6 +1,7 @@
 package com.elouyi.bely.utils
 
 import java.security.MessageDigest
+import java.util.*
 
 private val utilLogger = ElyLogger("StringUtils")
 
@@ -42,4 +43,12 @@ fun String.md5(): String = buildString {
         }
         append(hex)
     }
+}
+
+fun String.toHexByte(): Byte {
+    return Integer.parseInt(this,16).toByte()
+}
+
+fun String.base64Bytes(): ByteArray {
+    return Base64.getDecoder().decode(this)
 }

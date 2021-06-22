@@ -1,6 +1,6 @@
 package com.elouyi.bely.utils
 
-import com.elouyi.bely.internal.utils.YwLogger
+import com.elouyi.bely.BEly
 
 interface ElyLogger {
 
@@ -27,7 +27,7 @@ interface ElyLogger {
     fun setLevel(l: Int)
 
     companion object {
-        operator fun invoke(owner: String): ElyLogger = YwLogger(owner)
+        operator fun invoke(owner: String): ElyLogger = BEly.loggerFactory.newLogger(owner)
     }
 }
 

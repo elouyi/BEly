@@ -1,6 +1,7 @@
 package com.elouyi.bely
 
 import com.elouyi.bely.publicapi.PublicApi
+import com.elouyi.bely.utils.LoggerFactory
 import com.elouyi.bely.utils.newInstance
 import io.ktor.client.*
 import java.util.*
@@ -21,6 +22,8 @@ interface IBEly {
     val publicApi: PublicApi
 
     val botFactory: BiliBotFactory
+
+    val loggerFactory: LoggerFactory
 }
 
 @Suppress("ClassName","UncheckedCast")

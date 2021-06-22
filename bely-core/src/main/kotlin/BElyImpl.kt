@@ -2,6 +2,8 @@ package com.elouyi.bely
 
 import com.elouyi.bely.publicapi.PublicApiImpl
 import com.elouyi.bely.publicapi.PublicApi
+import com.elouyi.bely.utils.LoggerFactory
+import com.elouyi.bely.utils.LoggerFactoryImpl
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.*
@@ -25,4 +27,6 @@ internal open class BElyImpl : IBEly {
     override val publicApi: PublicApi = PublicApiImpl
 
     override val botFactory: BiliBotFactory = BiliBotFactoryImpl
+
+    override val loggerFactory: LoggerFactory = LoggerFactoryImpl
 }

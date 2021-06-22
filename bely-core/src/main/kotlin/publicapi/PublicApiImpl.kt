@@ -1,5 +1,9 @@
 package com.elouyi.bely.publicapi
 
+import com.elouyi.bely.apiutils.liveRoomEventChannel
+import com.elouyi.bely.biliapi.data.live.LiveDanmuInfoResponse
+import com.elouyi.bely.biliapi.data.live.LiveRoomEvent
+import com.elouyi.bely.biliapi.data.live.RoomPlayInfoResponse
 import com.elouyi.bely.biliapi.data.personal.CheckNickNameResponse
 import com.elouyi.bely.biliapi.data.relation.RelationFollowerResponse
 import com.elouyi.bely.biliapi.data.relation.RelationFollowingResponse
@@ -15,6 +19,7 @@ import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 
 internal object PublicApiImpl : PublicApi {
 
@@ -84,4 +89,15 @@ internal object PublicApiImpl : PublicApi {
         //client.get(PublicApiUrl.webDanmuku(type, oid, segment_index))
     }
 
+    override fun getRoomPlayInfoAsync(roomId: Int): Deferred<RoomPlayInfoResponse> = async {
+        client.get(PublicApiUrl.getRoomPlayInfo(roomId))
+    }
+
+    override fun liveDanmuInfoAsync(id: Long): Deferred<LiveDanmuInfoResponse> = async {
+        client.get(PublicApiUrl.liveDanmuInfo(id))
+    }
+
+    override suspend fun getLiveRoomEventChannel(roomId: Int): Channel<LiveRoomEvent> {
+        return liveRoomEventChannel(roomId)
+    }
 }

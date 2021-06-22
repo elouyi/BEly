@@ -8,5 +8,5 @@ object Versions {
     const val serialization = "1.2.1"
 
     const val zxing = "3.4.1"
-
+    const val javaWebsocket = "1.5.2"
 }

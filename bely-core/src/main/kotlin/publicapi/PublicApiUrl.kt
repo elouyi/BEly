@@ -48,5 +48,11 @@ interface PublicApiUrl {
     fun webDanmuku(type: Int,oid: Int,segment_index: Int): String =
         "https://api.bilibili.com/x/v2/dm/web/seg.so?type=$type&oid=$oid&segment_index=$segment_index"
 
+    fun getRoomPlayInfo(roomId: Int): String =
+        "https://api.live.bilibili.com/xlive/web-room/v1/index/getRoomPlayInfo?room_id=$roomId"
+
+    fun liveDanmuInfo(id: Long): String =
+        "https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo?id=$id"
+
     companion object : PublicApiUrl
 }

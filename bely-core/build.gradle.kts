@@ -13,12 +13,16 @@ dependencies {
     api(ktorClient("okhttp"))
     api("io.ktor:ktor-client-json:${Versions.ktor}")
     api("io.ktor:ktor-client-gson:${Versions.ktor}")
-
+    api(ktorClient("websockets"))
     implementation("com.google.zxing:core:${Versions.zxing}")
     implementation("com.google.zxing:javase:${Versions.zxing}")
 
+    implementation("org.java-websocket","Java-WebSocket",Versions.javaWebsocket)
 }
 
+tasks.getByName<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
+    kotlinOptions.freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
+}
 
 mavenPublish("bely-core")
 

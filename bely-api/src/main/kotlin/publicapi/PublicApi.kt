@@ -1,14 +1,20 @@
 package com.elouyi.bely.publicapi
 
+import com.elouyi.bely.biliapi.data.live.LiveDanmuInfoResponse
+import com.elouyi.bely.biliapi.data.live.LiveRoomEvent
+import com.elouyi.bely.biliapi.data.live.RoomPlayInfoResponse
 import com.elouyi.bely.biliapi.data.personal.CheckNickNameResponse
 import com.elouyi.bely.biliapi.data.relation.RelationFollowerResponse
 import com.elouyi.bely.biliapi.data.relation.RelationFollowingResponse
 import com.elouyi.bely.publicapi.response.*
 import com.elouyi.bely.utils.ElyLogger
 import com.elouyi.bely.utils.annotation.TodoApi
+import com.elouyi.bely.utils.annotation.UnstableApi
 import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Bilibili 无需登录的 API
@@ -178,4 +184,10 @@ interface PublicApi : CoroutineScope {
     @TodoApi
     fun webDanmukuAsync(type: Int,oid: Int,segment_index: Int): Deferred<Nothing>
 
+    fun getRoomPlayInfoAsync(roomId: Int): Deferred<RoomPlayInfoResponse>
+
+    fun liveDanmuInfoAsync(id: Long): Deferred<LiveDanmuInfoResponse>
+
+    @UnstableApi
+    suspend fun getLiveRoomEventChannel(roomId: Int): Channel<LiveRoomEvent>
 }
