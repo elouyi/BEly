@@ -15,6 +15,7 @@ buildscript {
 
 allprojects {
     version = Versions.BEly
+    group = "com.elouyi"
     repositories {
         maven("https://maven.aliyun.com/nexus/content/groups/public/")
         mavenCentral()
