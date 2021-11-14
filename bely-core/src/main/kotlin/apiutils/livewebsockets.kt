@@ -30,19 +30,12 @@ suspend fun liveRoomEventChannel(roomId: Int): Channel<LiveRoomEvent> {
     val hostInfo = liveDanmuInfo.data.host_list.last()
     val h = pack(reqInfo)
     val url = "wss://${hostInfo.host}:${hostInfo.wss_port}/sub"
-    val info = LiveRoomSocketInfo(
-        roomId,
-        id,
-        h,
-        heartBeatBytes,
-        url
-    )
+    val info = LiveRoomSocketInfo(roomId, id, h, heartBeatBytes, url)
     logger.v("开始尝试连接ws $url")
-    return withContext(Dispatchers.IO) {
-        LiveRoomWebsocketClient(info).apply {
-            connect()
-        }
+    return LiveRoomWebsocketClient(info).apply {
+            launch { connect() }
     }
+
 }
 
 class LiveRoomSocketInfo(

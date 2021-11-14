@@ -16,7 +16,7 @@ dependencies {
     api(ktorClient("websockets"))
     implementation("com.google.zxing:core:${Versions.zxing}")
     implementation("com.google.zxing:javase:${Versions.zxing}")
-
+    api("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.3.0")
     implementation("org.java-websocket","Java-WebSocket",Versions.javaWebsocket)
 }
 

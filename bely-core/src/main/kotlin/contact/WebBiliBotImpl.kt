@@ -12,8 +12,10 @@ import com.elouyi.bely.security.utils.UserCookies
 import com.elouyi.bely.security.utils.bili_jct
 import com.elouyi.bely.utils.QRUtil
 import com.elouyi.bely.utils.readLinec
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.coroutines.resume
 
 internal class WebBiliBotImpl(
     uid: Long,
@@ -22,15 +24,20 @@ internal class WebBiliBotImpl(
 
     init {
 
-        runBlocking {
-            val c = UserCookieCache.getCookies(uid)
-            if (c == null) {
-                logger.i("未找到 cookie 缓存，开始登录 ...")
-                login()
-            } else {
-                cookies = c
+        UserCookieCache::getCookies.call(uid,object : Continuation<UserCookies?> {
+            override val context = EmptyCoroutineContext
+
+            override fun resumeWith(result: Result<UserCookies?>) {
+                val r = result.getOrNull()
+                if (r != null) {
+                    cookies = r
+                    logger.i("通过 cookie 缓存登录成功")
+                } else {
+                    logger.w("未找到 cookie 缓存，bot 需要登录")
+                }
             }
-        }
+        })
+        logger.v("---------------------")
     }
 
     override val biliApi: WebBiliApi = WebBiliApiImpl(this)
@@ -39,7 +46,7 @@ internal class WebBiliBotImpl(
         "Not yet implemented"
     }
 
-    var cookies: UserCookies
+    lateinit var cookies: UserCookies
         private set
 
     override suspend fun login() {

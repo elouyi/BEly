@@ -15,7 +15,7 @@ import java.lang.Exception
 import java.net.URI
 import java.nio.ByteBuffer
 
-class LiveRoomWebsocketClient(
+internal class LiveRoomWebsocketClient(
     val info: LiveRoomSocketInfo
 ) : WebSocketClient(URI(info.url)),
     Channel<LiveRoomEvent> by Channel(),
@@ -50,9 +50,8 @@ class LiveRoomWebsocketClient(
 
     override fun onMessage(bytes: ByteBuffer?) {
         if (bytes == null) return
-        val es = handleMessage(bytes)
-        for (e in es) {
-            sende(e)
+        launch {
+            handleBytesMessage(bytes)
         }
     }
 
@@ -78,8 +77,7 @@ class LiveRoomWebsocketClient(
     }
 
     // todo
-    private fun handleMessage(bytes: ByteBuffer): List<LiveRoomEvent> {
-        val list = mutableListOf<LiveRoomEvent>()
+    private suspend fun handleBytesMessage(bytes: ByteBuffer) {
         val type = bytes.getInt(8)
         val len = bytes.getInt(0) - 16
         val data = ByteArray(len) {
@@ -89,7 +87,7 @@ class LiveRoomWebsocketClient(
             3 -> {
                 val p = bytes.getInt(16)
                 logger.v("收到心跳回复，直播间人气为 $p")
-                list.add(HeartBeatResponse(p))
+                send(HeartBeatResponse(p))
             }
             5 -> {
                 when(bytes.getShort(6).toInt()) {
@@ -98,17 +96,31 @@ class LiveRoomWebsocketClient(
                         val cr = ByteArray(c.size - 16) {
                             c[it + 16]
                         }
-                        list.add(UnknownEvent(String(cr)))
-                        logger.v(String(cr))
+                        val str = String(cr)
+                        parseStrEvents(str)
+                        logger.v(str)
                     }
                     0 -> {
-                        list.add(UnknownEvent(String(data)))
+                        //list.add(UnknownEvent(String(data)))
                         logger.v(String(data))
                     }
 
                 }
             }
         }
-        return list
+    }
+
+    private suspend fun parseStrEvents(events: String) {
+        var str = events
+        val count = str.count { it == '}' }
+        for (i in 0 until count) {
+            val index = str.indexOf("}")
+            parseSingleStrEvent(str.substring(0,index))
+            str = str.substring(index,str.length - 1)
+        }
+    }
+
+    private suspend fun parseSingleStrEvent(event: String) {
+        logger.i(event)
     }
 }
