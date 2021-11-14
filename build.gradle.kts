@@ -4,6 +4,7 @@ version = Versions.BEly
 buildscript {
 
     repositories {
+        maven("https://maven.aliyun.com/nexus/content/groups/public/")
         mavenCentral()
     }
 
@@ -15,6 +16,7 @@ buildscript {
 allprojects {
     version = Versions.BEly
     repositories {
+        maven("https://maven.aliyun.com/nexus/content/groups/public/")
         mavenCentral()
     }
 
