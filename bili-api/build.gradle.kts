@@ -21,6 +21,7 @@ kotlin {
                 implementation(kotlin("stdlib"))
                 implementation(kotlin("reflect"))
                 api(coroutines)
+                api(kotlinx("io",Versions.kotlinxIO))
                 // endregion
 
                 // region serialization

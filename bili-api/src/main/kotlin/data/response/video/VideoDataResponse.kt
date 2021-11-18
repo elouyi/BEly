@@ -1,4 +1,4 @@
-package com.elouyi.bely.data.response
+package com.elouyi.bely.data.response.video
 
 import com.elouyi.bely.data.BiliResponse
 import com.elouyi.bely.data.model.vedio.VideoData
