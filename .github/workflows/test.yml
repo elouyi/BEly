@@ -1,0 +1,12 @@
+name: NTest
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  ntest:
+    runs-on: windows-latest
+    steps:
+      - name: ts
+      - run: echo ${{ secrets.MAVEN_USERNAME }}
