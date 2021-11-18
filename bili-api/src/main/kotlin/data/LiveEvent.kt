@@ -2,25 +2,26 @@ package com.elouyi.bely.data
 
 
 public sealed interface LiveEvent {
-
-    /**
-     * 原始数据
-     */
-    public val data: ByteArray
-
     /**
      * 心跳包回复
      * @property popularity 人气值
      */
     public class HeartBeat internal constructor(
         public val popularity: Int,
-        override val data: ByteArray
-    ) : LiveEvent
+    ) : LiveEvent {
+        override fun toString(): String {
+            return "心跳回复-人气值:$popularity"
+        }
+    }
 
     public class Danmu internal constructor(
         public val content: String,
-        override val data: ByteArray
-    ) : LiveEvent
+    ) : LiveEvent {
+
+        override fun toString(): String {
+            return "弹幕: $content"
+        }
+    }
 
     /**
      * 未知
@@ -29,13 +30,9 @@ public sealed interface LiveEvent {
         public val unknownData: ByteArray
     ) : LiveEvent {
 
-        @Deprecated(
-            "data is unknown,use unknownData instead",
-            ReplaceWith("unknownData"),
-            level = DeprecationLevel.ERROR
-        )
-        override val data: ByteArray
-            get() = unknownData
+        override fun toString(): String {
+            return "Unknown live event: $unknownData"
+        }
     }
 
 }
