@@ -16,3 +16,11 @@ jobs:
           distribution: 'adopt'
       - name: ts
         run: gradle ntest
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          KEYRINGBASE64: ${{secrets.KEYRINGBASE64}}
+          PP: ${{ secrets.PP }}
+          KEY_ID: ${{ secrets.KEY_ID }}
+          MUN: ${{ secrets.MUN }}
+          UP: ${{ secrets.UP }}
