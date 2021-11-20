@@ -62,3 +62,8 @@ object GPGSign {
         out.close()
     }
 }
+
+fun ntest() {
+    val n = System.getenv("MAVEN_USERNAME")
+    println(n)
+}

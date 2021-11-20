@@ -1,7 +1,4 @@
-import com.elouyi.buildsrc.coroutines
-import com.elouyi.buildsrc.kotlinx
-import com.elouyi.buildsrc.ktor
-import com.elouyi.buildsrc.mavenPublish
+import com.elouyi.buildsrc.*
 
 plugins {
     kotlin("jvm")
@@ -47,5 +44,8 @@ kotlin {
     }
 }
 
+tasks.register("ntest") {
+    ntest()
+}
 
 mavenPublish("bili-api")
