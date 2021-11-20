@@ -44,8 +44,5 @@ kotlin {
     }
 }
 
-tasks.register("ntest") {
-    ntest()
-}
 
 mavenPublish("bili-api")
